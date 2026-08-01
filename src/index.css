@@ -1,0 +1,1690 @@
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    scroll-behavior: smooth;
+    overflow-x: clip;
+    max-width: 100%;
+  }
+  
+  body {
+    @apply antialiased text-gray-800 bg-white dark:bg-gray-900 dark:text-gray-100 transition-colors duration-200;
+    overflow-x: clip;
+    max-width: 100%;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-gray-900 dark:text-white;
+  }
+
+  p {
+    @apply text-gray-600 dark:text-gray-300;
+  }
+}
+
+/* Custom scrollbar */
+/* Vertical scrollbar only — avoids a visible horizontal bar when width barely overflows */
+::-webkit-scrollbar {
+  @apply w-2;
+  height: 0;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600 rounded-full hover:bg-gray-400 dark:hover:bg-gray-500;
+}
+
+/* Selection styles */
+::selection {
+  @apply bg-blue-100 dark:bg-blue-900 text-blue-900 dark:text-blue-100;
+}
+
+/* Custom utility classes */
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-cyan-500;
+  }
+  
+  .btn-primary {
+    @apply px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply px-6 py-3 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-900/20 rounded-lg font-medium transition-colors;
+  }
+  
+  .card {
+    @apply bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100 dark:border-gray-700;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Home ticker — CSS animation avoids layout overflow from wide motion nodes */
+@keyframes hero-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-hero-marquee {
+  animation: hero-marquee 38s linear infinite;
+  will-change: transform;
+}
+
+/* ─── 3D Developer Workspace Hero ─── */
+.ws-hero {
+  --ws-nav: 4.25rem;
+  --ws-nav-gap: clamp(28px, 4.5vh, 56px);
+  --ws-stand-pillar-h: clamp(28px, 3.8vh, 38px);
+  --ws-stand-plate-h: clamp(8px, 1.1vh, 11px);
+  --ws-stand-seat: clamp(10px, 1.5vh, 16px);
+  --ws-stand-stack: calc(var(--ws-stand-pillar-h) + var(--ws-stand-plate-h));
+  --ws-desk-block: clamp(158px, 22vh, 228px);
+  --ws-desk-tilt: 58deg;
+  --ws-desk-depth: 135%;
+  --ws-desk-lift: clamp(12px, 2vh, 28px);
+  --ws-scene-h: calc(var(--ws-desk-block) + var(--ws-stand-stack));
+  /* nav + gap + desk + stand + chin */
+  --ws-chrome: calc(var(--ws-nav) + var(--ws-nav-gap) + var(--ws-scene-h) + 2rem);
+  --ws-screen-h: min(calc(100dvh - var(--ws-chrome)), calc(93vw / 1.62));
+  --ws-screen-w: min(calc(var(--ws-screen-h) * 1.62), 93vw);
+  --ws-desk-width: 108%;
+  --ws-zoom: 0.9;
+  --ws-stand-keyboard-gap: clamp(10px, 1.6vh, 18px);
+
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  background: #06080f;
+  padding-top: var(--ws-nav);
+  box-sizing: border-box;
+  color: #fff;
+}
+
+/* Room */
+.ws-room-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.ws-wall-wood {
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #0e0c0a 0px,
+      #151210 3px,
+      #1a1612 6px,
+      #12100e 9px
+    );
+  opacity: 0.85;
+}
+
+.ws-room-gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(8, 12, 22, 0.55) 0%, transparent 35%),
+    radial-gradient(ellipse 90% 70% at 50% 100%, rgba(14, 165, 233, 0.08), transparent 55%);
+}
+
+.ws-ceiling-light {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 85%;
+  height: 50%;
+  background: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(255, 210, 140, 0.16), transparent 68%);
+  animation: ws-light-pulse 6s ease-in-out infinite;
+}
+
+.ws-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 85% 75% at 50% 52%, transparent 25%, rgba(0, 0, 0, 0.72) 100%);
+}
+
+.ws-backlight {
+  position: absolute;
+  bottom: 22%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75%;
+  height: 50%;
+  background: radial-gradient(ellipse 70% 55% at 50% 85%, rgba(14, 165, 233, 0.22), transparent 62%);
+  pointer-events: none;
+  animation: ws-backlight-pulse 5s ease-in-out infinite;
+}
+
+.ws-desk-glow {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 38%;
+  background: radial-gradient(ellipse 80% 50% at 50% 100%, rgba(255, 180, 100, 0.06), transparent 70%);
+  pointer-events: none;
+}
+
+@keyframes ws-backlight-pulse {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
+}
+
+@keyframes ws-light-pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* Particles */
+.ws-particles {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ws-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  left: calc(var(--i) * 8%);
+  top: calc(var(--i) * 5% + 10%);
+  animation: ws-float calc(4s + var(--i) * 0.3s) ease-in-out infinite;
+  animation-delay: calc(var(--i) * -0.4s);
+}
+
+@keyframes ws-float {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.2; }
+  50% { transform: translateY(-30px) translateX(8px); opacity: 0.6; }
+}
+
+/* 3D stage */
+.ws-stage {
+  position: relative;
+  z-index: 2;
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 1400px;
+  min-height: 0;
+  height: calc(100dvh - var(--ws-nav));
+  perspective: 1600px;
+  perspective-origin: 50% 42%;
+  overflow: hidden;
+}
+
+.ws-scene {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform-origin: 50% 100%;
+}
+
+/* Workspace — flex stack that fits viewport */
+.ws-workspace {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: min(1180px, 98vw);
+  height: 100%;
+  max-height: 100%;
+  transform: translateX(-50%);
+  transform-style: preserve-3d;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: hidden;
+  padding-top: var(--ws-nav-gap);
+  padding-bottom: 0.5rem;
+  box-sizing: border-box;
+}
+
+/* Workstation — single desk scene holds monitor + desk */
+.ws-workstation {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  transform: translateY(calc(-1 * var(--ws-desk-lift))) scale(var(--ws-zoom));
+  transform-origin: bottom center;
+  transform-style: preserve-3d;
+}
+
+/* Stand plate — glued on tilted desk surface */
+.ws-stand-plate-on-desk {
+  position: absolute;
+  top: calc(var(--ws-stand-seat) - var(--ws-stand-plate-h));
+  left: 50%;
+  transform: translateX(-50%) translateZ(8px);
+  transform-style: preserve-3d;
+  z-index: 12;
+}
+
+.ws-stand-plate-on-desk .ws-stand-plate {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  border-radius: 6px 6px 1px 1px;
+}
+
+/* Stand pillar — vertical, rises from plate center */
+.ws-stand-pillar-mount {
+  position: absolute;
+  top: calc(var(--ws-stand-seat) - var(--ws-stand-plate-h));
+  left: 50%;
+  transform: translateX(-50%) translateY(-100%);
+  transform-origin: bottom center;
+  z-index: 11;
+}
+
+/* Monitor frame — sits on stand pillar */
+.ws-monitor-on-desk {
+  position: absolute;
+  bottom: calc(var(--ws-desk-block) + var(--ws-stand-stack) - var(--ws-stand-seat));
+  left: 50%;
+  transform: translateX(-50%);
+  transform-origin: bottom center;
+  z-index: 22;
+}
+
+.ws-monitor-on-desk .ws-ultrawide-frame {
+  position: relative;
+  z-index: 23;
+}
+
+/* ─── Desk scene ─── */
+.ws-desk-scene {
+  position: relative;
+  flex: 0 0 var(--ws-scene-h);
+  width: var(--ws-desk-width);
+  height: var(--ws-scene-h);
+  transform-style: preserve-3d;
+  z-index: 4;
+  perspective: 1400px;
+  perspective-origin: 50% 30%;
+  isolation: isolate;
+}
+
+/* 3D desk rig — horizontal top receding toward monitor */
+.ws-desk-rig {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--ws-desk-block);
+  transform-style: preserve-3d;
+  z-index: 5;
+  overflow: visible;
+}
+
+/* Single tilted desktop — back edge (top) under monitor, front toward viewer */
+.ws-desk-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--ws-desk-depth);
+  transform: rotateX(var(--ws-desk-tilt));
+  transform-origin: 50% 0%;
+  transform-style: preserve-3d;
+  border-radius: 4px;
+  background:
+    linear-gradient(180deg, rgba(255, 220, 160, 0.09) 0%, transparent 22%),
+    linear-gradient(180deg, rgba(56, 189, 248, 0.06) 0%, transparent 35%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.32) 0%, transparent 5%, transparent 95%, rgba(0, 0, 0, 0.32) 100%),
+    repeating-linear-gradient(
+      90deg,
+      #1a120e 0px,
+      #221912 3px,
+      #2a1f18 6px,
+      #1f1610 9px,
+      #1a120e 12px
+    );
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.09),
+    inset 0 -12px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* Front edge thickness — visible desk lip toward camera */
+.ws-desk-apron {
+  position: absolute;
+  left: -0.5%;
+  right: -0.5%;
+  bottom: 0;
+  height: clamp(22px, 3.8vh, 34px);
+  transform-origin: top center;
+  transform: rotateX(-90deg);
+  background: linear-gradient(180deg, #2a1f18 0%, #1a120e 45%, #0c0907 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 14px 32px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+}
+
+/* Desk legs — depth anchors */
+.ws-desk-leg {
+  position: absolute;
+  bottom: 0;
+  width: clamp(22px, 3vw, 32px);
+  height: clamp(36px, 5.5vh, 52px);
+  background: linear-gradient(180deg, #2a1f18 0%, #120d09 100%);
+  border-radius: 0 0 3px 3px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+  transform-origin: top center;
+  transform: rotateX(calc(90deg - var(--ws-desk-tilt)));
+  pointer-events: none;
+}
+
+.ws-desk-leg-l {
+  left: 8%;
+}
+
+.ws-desk-leg-r {
+  right: 8%;
+}
+
+.ws-desk-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    118deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.035) 46%,
+    rgba(255, 255, 255, 0.07) 50%,
+    rgba(255, 255, 255, 0.035) 54%,
+    transparent 62%
+  );
+  pointer-events: none;
+}
+
+/* Wood seat patch — plate rests on this (same surface as desk) */
+.ws-desk-seat {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%) translateZ(1px);
+  width: min(230px, 33vw);
+  height: var(--ws-stand-seat);
+  z-index: 3;
+  border-radius: 2px 2px 0 0;
+  background:
+    linear-gradient(180deg, rgba(255, 220, 160, 0.08) 0%, transparent 100%),
+    repeating-linear-gradient(
+      90deg,
+      #1a120e 0px,
+      #221912 3px,
+      #2a1f18 6px,
+      #1f1610 9px,
+      #1a120e 12px
+    );
+  pointer-events: none;
+}
+
+/* Back strip — bare wood where stand sits (mat stays forward) */
+.ws-desk-stand-zone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(var(--ws-stand-seat) + var(--ws-stand-plate-h) + 8px);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Charcoal desk mat — starts forward of stand zone */
+.ws-desk-mat {
+  position: absolute;
+  top: calc(var(--ws-stand-seat) + var(--ws-stand-plate-h) + var(--ws-stand-keyboard-gap) + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateZ(2px);
+  width: 82%;
+  bottom: 14%;
+  height: auto;
+  border-radius: 9px;
+  z-index: 2;
+  background:
+    radial-gradient(ellipse 100% 80% at 50% 10%, rgba(255, 255, 255, 0.03), transparent),
+    linear-gradient(180deg, #35383f 0%, #2a2d32 45%, #22252a 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 2px 16px rgba(0, 0, 0, 0.35),
+    0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* Peripherals on mat */
+.ws-peripherals {
+  position: absolute;
+  bottom: 8%;
+  left: 50%;
+  transform: translateX(-50%) translateZ(8px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(14px, 2.8vw, 32px);
+  z-index: 3;
+}
+
+.ws-keyboard {
+  transform: translateZ(6px);
+  transform-origin: center bottom;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.55));
+}
+
+.ws-keyboard-case {
+  position: relative;
+  padding-bottom: 5px;
+  background: linear-gradient(180deg, #2a2a2a 0%, #141414 55%, #0e0e0e 100%);
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 5px 0 #080808,
+    0 10px 24px rgba(0, 0, 0, 0.52);
+}
+
+.ws-keyboard-plate {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3px, 0.45vh, 5px);
+  padding: clamp(7px, 1vh, 10px) clamp(9px, 1.2vw, 12px) clamp(8px, 1vh, 11px);
+  width: min(calc(var(--ws-screen-w) * 0.4), 340px, 44vw);
+  background: linear-gradient(180deg, #222 0%, #161616 100%);
+  border-radius: 7px 7px 5px 5px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.45);
+}
+
+.ws-kb-row {
+  display: flex;
+  gap: clamp(3px, 0.4vw, 4px);
+  align-items: stretch;
+}
+
+.ws-kb-row-bottom {
+  margin-top: 1px;
+}
+
+.ws-kb-key {
+  flex: 1;
+  min-width: 0;
+  height: clamp(10px, 1.45vh, 15px);
+  background: linear-gradient(
+    180deg,
+    #3d3d3d 0%,
+    #2e2e2e 35%,
+    #242424 70%,
+    #1a1a1a 100%
+  );
+  border-radius: 3px 3px 2px 2px;
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  box-shadow:
+    0 3px 0 #0a0a0a,
+    0 4px 3px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.ws-kb-key-mod {
+  height: clamp(9px, 1.3vh, 13px);
+  background: linear-gradient(180deg, #353535 0%, #222 60%, #181818 100%);
+}
+
+.ws-kb-key-wide {
+  height: clamp(9px, 1.3vh, 13px);
+}
+
+.ws-kb-key-space {
+  height: clamp(10px, 1.45vh, 14px);
+  background: linear-gradient(180deg, #383838 0%, #262626 60%, #1c1c1c 100%);
+}
+
+.ws-keyboard-feet {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 14% 0;
+  margin-top: 2px;
+}
+
+.ws-keyboard-feet span {
+  width: 5px;
+  height: 3px;
+  border-radius: 1px;
+  background: #0a0a0a;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Ergonomic wireless mouse */
+.ws-mouse {
+  transform: translateZ(8px);
+  transform-origin: center bottom;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
+}
+
+.ws-mouse-body {
+  position: relative;
+  width: clamp(54px, 6.5vw, 68px);
+  height: clamp(34px, 4.2vh, 44px);
+  background:
+    radial-gradient(ellipse 70% 45% at 38% 18%, rgba(255, 255, 255, 0.1), transparent),
+    radial-gradient(ellipse 55% 35% at 72% 55%, rgba(0, 0, 0, 0.25), transparent),
+    linear-gradient(155deg, #3a3a3a 0%, #252525 38%, #161616 72%, #0e0e0e 100%);
+  border-radius: 42% 42% 38% 38% / 58% 58% 42% 42%;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.35),
+    0 4px 0 #080808,
+    0 8px 16px rgba(0, 0, 0, 0.48);
+}
+
+.ws-mouse-left-btn,
+.ws-mouse-right-btn {
+  position: absolute;
+  top: 8%;
+  height: 38%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, transparent 100%);
+  pointer-events: none;
+}
+
+.ws-mouse-left-btn {
+  left: 6%;
+  width: 38%;
+  border-radius: 40% 8% 8% 40% / 50% 20% 20% 50%;
+  border-right: 1px solid rgba(0, 0, 0, 0.35);
+}
+
+.ws-mouse-right-btn {
+  right: 6%;
+  width: 38%;
+  border-radius: 8% 40% 40% 8% / 20% 50% 50% 20%;
+  border-left: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.ws-mouse-scroll-well {
+  position: absolute;
+  top: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(8px, 1vw, 10px);
+  height: clamp(12px, 1.6vh, 16px);
+  background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+  border-radius: 4px;
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.ws-mouse-scroll {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 3px;
+  height: clamp(7px, 1vh, 10px);
+  background: linear-gradient(180deg, #555 0%, #333 50%, #222 100%);
+  border-radius: 2px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 0 1px rgba(0, 0, 0, 0.5);
+}
+
+.ws-mouse-thumb-rest {
+  position: absolute;
+  right: 4%;
+  bottom: 18%;
+  width: 28%;
+  height: 42%;
+  border-radius: 50% 30% 40% 50% / 40% 50% 30% 40%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), transparent);
+  box-shadow: inset -1px 0 2px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+}
+
+.ws-mouse-side-grip {
+  position: absolute;
+  left: 5%;
+  bottom: 22%;
+  width: 18%;
+  height: 38%;
+  border-radius: 40% 20% 20% 40%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15) 0px,
+    rgba(0, 0, 0, 0.15) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.ws-mouse-led {
+  position: absolute;
+  bottom: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.55);
+  box-shadow: 0 0 4px rgba(56, 189, 248, 0.45);
+  pointer-events: none;
+}
+
+.ws-mouse-foot {
+  position: absolute;
+  bottom: 2px;
+  width: 5px;
+  height: 3px;
+  border-radius: 1px;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.ws-mouse-foot-l { left: 18%; }
+.ws-mouse-foot-r { right: 18%; }
+
+/* ─── Ultrawide monitor + aluminum stand ─── */
+.ws-monitor-rig {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.ws-rig-glow {
+  position: absolute;
+  inset: -12% -8%;
+  border-radius: 50%;
+  filter: blur(55px);
+  opacity: 0.4;
+  pointer-events: none;
+  animation: ws-screen-glow 4s ease-in-out infinite;
+}
+
+.ws-rig-glow-cyan { background: rgba(14, 165, 233, 0.5); }
+
+@keyframes ws-screen-glow {
+  0%, 100% { opacity: 0.28; }
+  50% { opacity: 0.48; }
+}
+
+.ws-ultrawide-frame {
+  position: relative;
+  z-index: 2;
+  padding: clamp(6px, 0.85vw, 9px);
+  background: linear-gradient(
+    160deg,
+    #ececf2 0%,
+    #d4d4dc 18%,
+    #b8b8c0 42%,
+    #a0a0a8 68%,
+    #909098 100%
+  );
+  border-radius: 14px;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.25),
+    0 24px 70px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+}
+
+.ws-ultrawide-screen {
+  overflow: hidden;
+  border-radius: 8px;
+  background: #0d1117;
+  position: relative;
+  width: var(--ws-screen-w);
+  height: var(--ws-screen-h);
+  max-width: 100%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+
+.ws-ultrawide-screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Aluminum stand — flat plate + pillar */
+.ws-alu-stand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+.ws-stand-pillar {
+  width: clamp(44px, 5.5vw, 56px);
+  height: var(--ws-stand-pillar-h);
+  background: linear-gradient(
+    90deg,
+    #6e6e76 0%,
+    #a8a8b0 18%,
+    #dcdce4 42%,
+    #ececf2 50%,
+    #c4c4cc 58%,
+    #909098 82%,
+    #6e6e76 100%
+  );
+  border-radius: 2px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15);
+}
+
+.ws-stand-plate {
+  width: min(220px, 32vw);
+  height: var(--ws-stand-plate-h);
+  min-height: 10px;
+  margin-top: -1px;
+  background: linear-gradient(
+    180deg,
+    #d8d8e0 0%,
+    #b8b8c0 35%,
+    #9898a0 70%,
+    #888890 100%
+  );
+  border-radius: 6px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Screen shared styles */
+.ws-screen-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow: hidden;
+}
+
+.ws-screen-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.45);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.ws-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.ws-dot-red { background: #ff5f57; }
+.ws-dot-yellow { background: #febc2e; }
+.ws-dot-green { background: #28c840; }
+
+.ws-screen-title {
+  margin-left: 6px;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 0.04em;
+}
+
+.ws-screen-scanline {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  animation: ws-scanline 8s linear infinite;
+}
+
+@keyframes ws-scanline {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
+/* Portfolio screen — animated mesh + grid */
+.ws-portfolio-screen {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(165deg, #0c1118 0%, #070a10 100%);
+}
+
+.ws-screen-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ws-screen-mesh {
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(ellipse 50% 40% at 20% 30%, rgba(14, 165, 233, 0.18), transparent 55%),
+    radial-gradient(ellipse 45% 35% at 80% 70%, rgba(99, 102, 241, 0.12), transparent 55%),
+    radial-gradient(ellipse 60% 50% at 50% 100%, rgba(6, 182, 212, 0.08), transparent 60%);
+  animation: ws-mesh-drift 12s ease-in-out infinite alternate;
+}
+
+.ws-screen-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, black 20%, transparent 75%);
+  opacity: 0.7;
+}
+
+.ws-screen-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(24px);
+  pointer-events: none;
+}
+
+.ws-screen-orb-a {
+  width: 120px;
+  height: 120px;
+  top: 10%;
+  left: 8%;
+  background: rgba(14, 165, 233, 0.35);
+}
+
+.ws-screen-orb-b {
+  width: 90px;
+  height: 90px;
+  bottom: 15%;
+  right: 10%;
+  background: rgba(99, 102, 241, 0.3);
+}
+
+@keyframes ws-mesh-drift {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(2%, -3%) scale(1.05); }
+}
+
+.ws-portfolio-body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: clamp(12px, 2vh, 22px) clamp(16px, 2.5vw, 32px) clamp(20px, 2.8vh, 32px);
+  gap: clamp(8px, 1.2vh, 16px);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.ws-portfolio-badge {
+  font-family: ui-monospace, monospace;
+  font-size: clamp(12px, 1.45vw, 16px);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(56, 189, 248, 0.9);
+}
+
+.ws-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: clamp(10px, 1.2vw, 13px);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #6ee7b7;
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  background: rgba(52, 211, 153, 0.1);
+  border-radius: 999px;
+  padding: clamp(5px, 0.7vh, 7px) clamp(12px, 1.4vw, 16px);
+}
+
+.ws-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #34d399;
+  animation: ws-pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes ws-pulse-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.5); }
+  50% { opacity: 0.7; box-shadow: 0 0 0 4px rgba(52, 211, 153, 0); }
+}
+
+.ws-portfolio-name {
+  font-size: clamp(26px, 5vw, 56px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+  margin-top: 4px;
+  min-height: 1.15em;
+}
+
+.ws-portfolio-name-text {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.ws-name-char {
+  display: inline-block;
+  background: linear-gradient(120deg, #fff 0%, #e0f2fe 45%, #7dd3fc 75%, #fff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: ws-name-shimmer 6s ease-in-out infinite;
+}
+
+.ws-name-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 0.85em;
+  margin-left: 2px;
+  vertical-align: baseline;
+  background: rgba(56, 189, 248, 0.95);
+  border-radius: 1px;
+  animation: ws-cursor-blink 0.9s step-end infinite;
+}
+
+@keyframes ws-cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes ws-name-shimmer {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
+}
+
+.ws-portfolio-tagline {
+  font-size: clamp(15px, 1.85vw, 24px);
+  font-weight: 500;
+  color: rgba(56, 189, 248, 0.95);
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 24px rgba(14, 165, 233, 0.3);
+}
+
+.ws-portfolio-bio {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  font-size: clamp(13px, 1.5vw, 18px);
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: rgba(186, 210, 230, 0.92);
+  max-width: min(640px, 96%);
+  margin-top: 4px;
+  text-shadow: 0 1px 18px rgba(14, 165, 233, 0.12);
+}
+
+.ws-portfolio-bio .ws-bio-line {
+  display: block;
+  white-space: nowrap;
+}
+
+.ws-portfolio-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(8px, 1.2vw, 14px);
+  margin-top: clamp(8px, 1.2vh, 16px);
+}
+
+.ws-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: clamp(12px, 1.35vw, 17px);
+  font-weight: 600;
+  padding: clamp(8px, 1vh, 12px) clamp(16px, 2vw, 24px);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.ws-btn-primary {
+  background: linear-gradient(135deg, #0ea5e9, #2563eb);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(14, 165, 233, 0.35);
+}
+
+.ws-btn-primary:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.ws-btn-ghost {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.ws-btn-ghost:hover {
+  border-color: rgba(56, 189, 248, 0.5);
+  background: rgba(56, 189, 248, 0.1);
+}
+
+/* Social icons inside monitor */
+.ws-portfolio-socials {
+  display: flex;
+  gap: clamp(8px, 1.2vw, 14px);
+  margin-top: clamp(8px, 1.2vh, 16px);
+  margin-bottom: 2px;
+}
+
+.ws-portfolio-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(34px, 4.2vw, 44px);
+  height: clamp(34px, 4.2vw, 44px);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: clamp(14px, 1.7vw, 19px);
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+
+.ws-portfolio-social-link:hover {
+  border-color: rgba(56, 189, 248, 0.45);
+  background: rgba(56, 189, 248, 0.12);
+  color: #fff;
+}
+
+/* Scroll cue — bottom center */
+.ws-scroll-cue {
+  position: absolute;
+  bottom: 0.65rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.ws-scroll-cue-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.ws-scroll-cue-link:hover {
+  color: rgba(56, 189, 248, 0.8);
+}
+
+.ws-scroll-mouse {
+  width: 18px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  display: flex;
+  justify-content: center;
+  padding-top: 5px;
+}
+
+.ws-scroll-wheel {
+  width: 3px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(56, 189, 248, 0.7);
+}
+
+/* Desktop monitor — breathing room like mobile screen inset */
+@media (min-width: 768px) {
+  .ws-portfolio-body {
+    padding: clamp(40px, 6vh, 72px) clamp(28px, 4vw, 56px);
+    gap: clamp(8px, 1.3vh, 16px);
+    justify-content: center;
+  }
+
+  .ws-portfolio-name {
+    margin-top: 0;
+    font-size: clamp(24px, 4.2vw, 48px);
+  }
+
+  .ws-portfolio-bio {
+    margin-top: 0;
+  }
+
+  .ws-portfolio-actions {
+    margin-top: clamp(2px, 0.6vh, 8px);
+  }
+
+  .ws-portfolio-socials {
+    margin-top: clamp(8px, 1.2vh, 14px);
+    margin-bottom: 0;
+  }
+}
+
+@media (max-height: 720px) {
+  .ws-hero {
+    --ws-nav-gap: clamp(18px, 3vh, 32px);
+    --ws-desk-block: 118px;
+    --ws-desk-lift: 8px;
+    --ws-chrome: calc(var(--ws-nav) + var(--ws-nav-gap) + var(--ws-scene-h) + 1.75rem);
+    --ws-zoom: 0.86;
+    --ws-stand-keyboard-gap: 8px;
+  }
+
+  .ws-portfolio-badge { font-size: 11px; }
+  .ws-portfolio-name { font-size: clamp(22px, 4.5vw, 40px); }
+  .ws-portfolio-tagline { font-size: clamp(13px, 1.6vw, 18px); }
+  .ws-portfolio-bio {
+    font-size: clamp(12px, 1.4vw, 16px);
+    font-weight: 500;
+  }
+  .ws-status-pill { font-size: 9px; padding: 4px 10px; }
+  .ws-screen-toolbar { padding: 5px 10px; }
+  .ws-dot { width: 8px; height: 8px; }
+}
+
+/* Mobile phones — desktop (≥768px) unchanged */
+@media (max-width: 767px) {
+  .ws-hero {
+    --ws-nav: 3.75rem;
+    --ws-nav-gap: 0px;
+    --ws-desk-block: clamp(68px, 11vh, 92px);
+    --ws-desk-lift: 0px;
+    --ws-desk-tilt: 52deg;
+    --ws-desk-depth: 115%;
+    --ws-stand-pillar-h: clamp(20px, 3vh, 28px);
+    --ws-stand-plate-h: clamp(6px, 1vh, 9px);
+    --ws-stand-seat: clamp(8px, 1.3vh, 12px);
+    --ws-zoom: 1.02;
+    --ws-desk-width: 100%;
+    --ws-stand-keyboard-gap: clamp(12px, 2vh, 18px);
+    /* Landscape monitor with side inset */
+    --ws-screen-w: min(88vw, 400px);
+    --ws-screen-h: min(calc(var(--ws-screen-w) / 1.38), 46vh);
+    --ws-bezel: 14px;
+    --ws-full-stack: calc(
+      var(--ws-screen-h) + var(--ws-bezel) + var(--ws-scene-h) - var(--ws-stand-seat)
+    );
+    justify-content: center;
+  }
+
+  .ws-stage {
+    height: calc(100dvh - var(--ws-nav));
+    perspective-origin: 50% 48%;
+  }
+
+  .ws-workspace {
+    width: min(100%, 100vw);
+    justify-content: center;
+    padding-top: 0;
+    padding-bottom: 0.15rem;
+    overflow: visible;
+  }
+
+  .ws-workstation {
+    transform: translateY(0) scale(var(--ws-zoom));
+    width: 100%;
+  }
+
+  .ws-desk-scene {
+    width: 100%;
+    height: var(--ws-full-stack);
+    flex: 0 0 var(--ws-full-stack);
+  }
+
+  .ws-desk-mat {
+    top: calc(var(--ws-stand-seat) + var(--ws-stand-plate-h) + var(--ws-stand-keyboard-gap) + 10px);
+  }
+
+  .ws-desk-leg {
+    display: none;
+  }
+
+  .ws-ultrawide-frame {
+    padding: 5px;
+    border-radius: 10px;
+  }
+
+  .ws-ultrawide-screen {
+    border-radius: 6px;
+  }
+
+  .ws-keyboard-plate {
+    width: min(calc(var(--ws-screen-w) * 0.48), 180px, 52vw);
+  }
+
+  .ws-kb-key {
+    height: clamp(5px, 0.9vh, 9px);
+  }
+
+  .ws-mouse-body {
+    width: clamp(28px, 7vw, 40px);
+    height: clamp(18px, 2.6vh, 26px);
+  }
+
+  .ws-screen-inner {
+    overflow: hidden;
+  }
+
+  .ws-portfolio-body {
+    padding: 6px 8px 12px;
+    gap: 3px;
+    justify-content: center;
+    overflow: visible;
+    min-height: 0;
+  }
+
+  .ws-portfolio-body > * {
+    flex-shrink: 0;
+  }
+
+  .ws-status-pill {
+    font-size: 7px;
+    padding: 2px 7px;
+    gap: 4px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .ws-status-dot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .ws-portfolio-name {
+    font-size: clamp(15px, 4.6vw, 22px);
+    margin-top: 0;
+    min-height: 0;
+    line-height: 1.1;
+  }
+
+  .ws-portfolio-tagline {
+    font-size: clamp(10px, 3vw, 13px);
+  }
+
+  .ws-portfolio-bio {
+    font-size: clamp(10px, 2.5vw, 12px);
+    line-height: 1.35;
+    display: block;
+    max-width: 100%;
+    letter-spacing: 0;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .ws-portfolio-bio .ws-bio-line {
+    display: block;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: normal;
+  }
+
+  .ws-portfolio-actions {
+    gap: 4px;
+    margin-top: 1px;
+    flex-wrap: wrap;
+  }
+
+  .ws-btn {
+    font-size: 9px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    gap: 3px;
+  }
+
+  .ws-portfolio-socials {
+    gap: 5px;
+    margin-top: 1px;
+    margin-bottom: 2px;
+  }
+
+  .ws-portfolio-social-link {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+  }
+
+  .ws-screen-toolbar {
+    padding: 3px 8px;
+  }
+
+  .ws-screen-title {
+    font-size: 8px;
+  }
+
+  .ws-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .ws-scroll-cue {
+    bottom: 0.4rem;
+  }
+
+  .ws-scroll-cue-link {
+    font-size: 8px;
+  }
+
+  .ws-scroll-mouse {
+    width: 14px;
+    height: 22px;
+  }
+}
+
+@media (max-width: 380px) {
+  .ws-hero {
+    --ws-desk-block: 60px;
+    --ws-screen-w: min(88vw, 340px);
+    --ws-screen-h: min(calc(var(--ws-screen-w) / 1.35), 48vh);
+    --ws-zoom: 1;
+    --ws-stand-keyboard-gap: 10px;
+    --ws-stand-pillar-h: 18px;
+  }
+
+  .ws-portfolio-bio {
+    font-size: clamp(9.5px, 2.4vw, 11.5px);
+  }
+
+  .ws-portfolio-bio .ws-bio-line {
+    white-space: normal;
+  }
+
+  .ws-btn {
+    font-size: 8px;
+    padding: 3px 7px;
+  }
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: var(--color-primary-600);
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-700);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 2px solid var(--color-primary-500);
+  color: var(--color-primary-600);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-primary-50);
+}
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.section {
+  padding: 5rem 0;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reset some default styles */
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+  padding: 0;
+  line-height: 1.2;
+}
+
+button {
+  font-family: inherit;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  outline: none;
+  transition: all 0.2s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  background-color: #f9f9f9;
+}
+
+button:focus {
+  box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.5);
+}
+
+button:hover {
+  border-color: #646cff;
+}
+
+a {
+  color: var(--color-primary-600);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #747bff;
+}
+
+/* Typography */
+h1 {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+}
+
+h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+h3 {
+  font-size: 1.875rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+}
+
+p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+/* Layout helpers */
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.gap-8 {
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  
+  .md\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  
+  .md\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Spacing utilities */
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
+}
+
+.p-4 {
+  padding: 1rem;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Text utilities */
+.text-center {
+  text-align: center;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.text-white {
+  color: white;
+}
+
+.bg-gray-900 {
+  background-color: #111827;
+}
+
+/* Transitions */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Focus styles */
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
