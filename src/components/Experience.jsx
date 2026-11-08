@@ -1,236 +1,357 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FaBriefcase, FaMapMarkerAlt, FaChevronDown } from 'react-icons/fa';
+import { FaBuilding, FaMapMarkerAlt, FaChevronDown } from 'react-icons/fa';
 
 const MotionDiv = motion.div;
 const MotionSection = motion.section;
 
 const PREVIEW_COUNT = 4;
 
-const experiences = [
+const companies = [
   {
-    id: 1,
-    role: 'Senior Software Engineer',
+    id: 'ezfinanz',
     company: 'Ezfinanz',
-    duration: 'Aug 2024 – Present',
-    worktype: 'Full Time',
     location: 'Hyderabad, India',
-    description:
-      'Leading engineering for a modern debt collection platform — automating loan recovery, multi-channel campaigns, legal notice workflows, and field operations to cut manual work and improve recovery outcomes.',
-    responsibilities: [
-      'Architected and led end-to-end development of a loan debt recovery web application and internal automation tools using Frappe and Python, reducing manual effort by 70% and improving operational accuracy in an Agile environment.',
-      'Implemented automated multi-channel campaigns (Click2Call, OBD, WhatsApp Cloud API, SMS, Email), achieving an 89% recovery rate and improving team productivity.',
-      'Developed a bulk allocation and deallocation system (manual, Excel-based, and rule-based) handling over 40,000+ records.',
-      'Engineered bulk generation and delivery of 2,000+ demand and legal notices via Email, WhatsApp, SMS, and Post, reducing dispatch time from days to 30 minutes and eliminating manual effort.',
-      'Established bulk loan data synchronization via webhooks and cron jobs with external databases, ensuring real-time payment accuracy.',
-      'Built a GPS-based Field Executive Tracking System using Google Maps APIs and OpenStreetMap to systematize visit planning and tracking, expense calculation, and audit workflows, replacing manual reporting.',
-      'Designed settlement waivers, discount workflows, and promotional campaigns to boost loan settlements and reduce outstanding debt.',
-      'Configured CI/CD pipelines using GitHub Actions, reducing deployment time by 50% across AWS EC2 and on-premise servers.',
-      'Mentored 3 junior developers through code reviews and knowledge-sharing, enabling independent feature delivery within two months.',
-      'Integrated Metabase, SOGO Mail, Frappe Helpdesk to streamline analytics, email delivery, and internal operations.',
-      'Managed production infrastructure ensuring high availability, optimal performance, and zero-downtime deployments.',
-      'Reduced operational costs by implementing Read Replicas and cutting manual workflows, decreasing team size by 28%.',
-      'Configured Prometheus and Grafana for infrastructure monitoring, tracking server performance, resource utilization, and system health.',
-      'Created comprehensive technical documentation to support future development, streamline knowledge sharing, reduce manual effort, and improve engineering efficiency.',
-      'Reviewed existing products through demos to identify enhancement opportunities and implemented new features.'
+    duration: 'Oct 2022 – Present',
+    roles: [
+      {
+        id: 'ezf-senior',
+        role: 'Senior Software Engineer',
+        duration: 'Jan 2025 – Present',
+        worktype: 'Full Time',
+        description:
+          'Leading delivery across manufacturing execution, loan recovery, and internal platform work — digitizing shop-floor operations, automating debt collection, and standing up HRMS and helpdesk systems.',
+        projects: [
+          {
+            client: 'MTAR Technologies',
+            name: 'Manufacturing Execution System (MES)',
+            points: [
+              'Building an MES on the ERPNext Manufacturing module to digitize shop-floor operations.',
+              'Integrating Dynamics 365 Business Central with ERPNext via REST APIs for production data sync.',
+              'Building end-to-end job tracking across Released Production Orders (RPOs), routings, machines and operators assignment, and production activity monitoring.',
+              'Implementing CNC machine connectivity for real-time data capture and live machine monitoring.',
+            ],
+          },
+          {
+            client: 'Ezfinanz',
+            name: 'Loan Collection & Recovery Management',
+            points: [
+              'Architected and led end-to-end development of a debt recovery platform and internal automation tools on Frappe and Python, cutting manual effort by 70%.',
+              'Built automated multi-channel collection campaigns (Click2Call, OBD, WhatsApp Cloud API, SMS, Email), contributing to an 89% recovery rate.',
+              'Built a bulk allocation and deallocation engine (manual, Excel, rule-based) for 40,000+ loan records.',
+              'Automated generation and delivery of 2,000+ demand and legal notices via Email, WhatsApp, SMS, and Post, cutting dispatch time from days to 30 minutes.',
+              'Established bulk loan data synchronization via webhooks and cron jobs with external databases, ensuring real-time payment accuracy.',
+              'Built a GPS-based field executive tracking system (Google Maps API, OpenStreetMap) for visit planning, expense calculation, and audits, replacing manual reporting.',
+              'Designed settlement waiver, discount, and promotional campaign workflows to reduce outstanding debt.',
+              'Cut operating costs with database read replicas and automation, sustaining output with 28% fewer staff.',
+              'Configured CI/CD pipelines using GitHub Actions, reducing deployment time by 50% across AWS EC2 and on-premise servers.',
+              'Integrated Metabase, SOGo Mail, Frappe Helpdesk; managed DLT SMS, WhatsApp, and call vendors.',
+              'Mentored 3 junior developers via code reviews and knowledge sharing to deliver solo in 2 months.',
+              'Configured Prometheus and Grafana for infrastructure monitoring, tracking server performance, resource utilization, and system health.',
+              'Created comprehensive technical documentation to support future development, streamline knowledge sharing, reduce manual effort, and improve engineering efficiency.',
+              'Reviewed existing products through demos to identify enhancement opportunities and implemented new features.'
+            ],
+          },
+          {
+            client: 'Nettlinx Limited',
+            name: 'HRMS, Helpdesk, and Internal Tools',
+            points: [
+              'Set up Frappe and HRMS on the server, configuring departments, designations, and biometric integration, and automated employee ID card and email account creation via APIs.',
+              'Set up Frappe Helpdesk for support ticketing and Frappe Raven for internal team messaging.',
+              'Contributed to Internet Leased Line (ILL) workflows for connection requests and configuration details.',
+              'Led the Nettlinx website project, defining its structure, content, and features, and reviewing code.',
+            ],
+          },
+        ],
+        technologies: [
+          'Frappe',
+          'ERPNext',
+          'Python',
+          'JavaScript',
+          'React',
+          'Dynamics 365',
+          'AWS',
+          'PostgreSQL',
+          'GitHub Actions',
+          'WhatsApp Cloud API',
+          'Prometheus',
+          'Metabase',
+        ],
+      },
+      {
+        id: 'ezf-se',
+        role: 'Software Engineer',
+        duration: 'May 2023 – Dec 2024',
+        worktype: 'Full Time',
+        description:
+          'Built stock-broking onboarding, Re-KYC, and demat account closure platforms — KYC APIs and third-party integrations that streamlined the demat account lifecycle.',
+        projects: [
+          {
+            client: 'Northeast Broking Services Ltd.',
+            name: 'Demat Closure and Re-KYC Platforms',
+            points: [
+              'Delivered Demat Closure and Re-KYC platforms (POA/DDPI, MTF, Nominee, KYC) using Laravel, MySQL, and RESTful APIs, streamlining account management for stock-broking clients.',
+              'Automated end-to-end KYC verification by integrating KRA, Digio (DigiLocker PAN verification, bank validation, IPV, eSign), SMS gateways, and Fincorp APIs, sharply reducing manual agent work.',
+              'Interviewed 50+ candidates, hired 6 engineers, and ran knowledge-sharing sessions for faster ramp-up.',
+              'Represented the company at ANMI 2024 (Mumbai), demonstrating products, interacting with prospective clients, and contributing to business networking and partnership opportunities.',
+              'Optimized APIs and web apps for faster third-party data exchange, accelerating KYC onboarding.',
+
+            ],
+          },
+        ],
+        technologies: ['Laravel', 'MySQL', 'JWT', 'REST APIs', 'Digio', 'KRA'],
+      },
+      {
+        id: 'ezf-intern',
+        role: 'Software Engineer Intern',
+        duration: 'Oct 2022 – Apr 2023',
+        worktype: 'Internship',
+        description:
+          'Supported stock-broking KYC onboarding — automated document packs, admin status APIs, and site and server operations.',
+        projects: [
+          {
+            points: [
+              'Automated KYC onboarding PDF generation using wkhtmltopdf, replacing manual 40-page booklet filling, printing, and individual FTP uploads with an end-to-end submission pipeline, eliminating hours of daily manual effort.',
+              'Built admin dashboard APIs exposing KYC lifecycle status and account onboarding metrics, giving team executives real-time visibility to track and act on pending updates.',
+              'Maintained company websites and servers, covering domain/DNS, Google Workspace access, CloudPanel, and server provisioning.',
+            ],
+          },
+        ],
+        technologies: ['Laravel', 'MySQL', 'REST APIs', 'wkhtmltopdf', 'CloudPanel', 'DNS', 'Server Management'],
+      },
     ],
-    technologies: [ 'Frappe','Python','JavaScript','React', 'AWS', 'PostgreSQL','GitHub Actions', 'WhatsApp Cloud API', 'Prometheus', 'API Integration', 'Metabase', ],
   },
   {
-    id: 2,
-    role: 'Software Engineer',
-    company: 'Ezfinanz',
-    duration: 'May 2023 – Jul 2024',
-    worktype: 'Full Time',
-    location: 'Hyderabad, India',
-    description:
-      'Built stock broking onboarding, REKYC, and account closure flows — KYC APIs and third-party integrations that streamlined demat account lifecycle management.',
-    responsibilities: [
-      'Developed APIs for Stockbroking KYC onboarding and designed & built Demat Account Closure and REKYC applications (POA/DDPI, MTF, Nominee, KYC) using Laravel, and MySQL, building scalable RESTful APIs that streamlined account management workflows for stockbroking services.',
-      'Integrated JWT authentication and third-party services KRA, Digio (Digilocker PAN, Bank Validation, IPV, eSign), UPI eMandate, SMS gateways, and Fincorp APIs for streamlined KYC processes.',
-      'Optimized responsive web applications with efficient APIs, enabling faster data exchange and seamless third-party integrations that accelerated KYC processing across account onboarding workflows.',
-      'Represented the company at ANMI 2024 (Mumbai), demonstrating products, interacting with prospective clients, and contributing to business networking and partnership opportunities.',
-      'Drove technical screening and interviews for 50+ candidates, selecting 6 engineers and reducing team ramp-up time through structured evaluation and knowledge-sharing sessions.'
-    ],
-    technologies: [ 'Laravel', 'MySQL', 'JWT', 'REST APIs', 'Digio', 'KRA', 'UPI eMandate', 'Rest APIs'],
-  },
-  {
-    id: 3,
-    role: 'Software Developer Intern',
-    company: 'Ezfinanz',
-    duration: 'Oct 2022 – Apr 2023',
-    worktype: 'Internship',
-    location: 'Hyderabad, India',
-    description:
-      'Supported stock broking KYC onboarding — automated PDF document packs, admin status APIs, and basic site/server operations.',
-    responsibilities: [
-      'Automated KYC onboarding PDF generation using wkhtmltopdf, replacing manual 40-page booklet filling, printing, and individual FTP uploads with an end-to-end submission pipeline, eliminating hours of daily manual effort.',
-      'Built admin dashboard APIs exposing KYC lifecycle status and account onboarding metrics, empowering team executives with real-time visibility to track and act on pending updates.',
-      'Maintained company websites and server infrastructure including domain/DNS operations, Google Workspace (GSuite) access control, CloudPanel maintenance, and server provisioning.',
-    ],
-    technologies: ['Laravel', 'MySQL', 'REST APIs', 'wkhtmltopdf', 'CloudPanel', 'DNS', 'Server Management'],
-  },
-  {
-    id: 4,
-    role: 'Campus Leader',
+    id: 'techlearn',
     company: 'Techlearn',
-    duration: 'Dec 2022',
-    worktype: 'Internship',
     location: 'Remote',
-    description:
-      'Campus sales and marketing — partnerships and outreach to grow course enrollments.',
-    responsibilities: [
-      'Led campus marketing initiatives, increasing course enrollments through partnerships and targeted outreach.',
+    duration: 'Dec 2022',
+    roles: [
+      {
+        id: 'tl-campus-leader',
+        role: 'Campus Leader',
+        duration: 'Dec 2022',
+        worktype: 'Internship',
+        description: 'Campus sales and marketing — partnerships and outreach to grow course enrollments.',
+        projects: [
+          {
+            points: [
+              'Led campus marketing initiatives, increasing course enrollments through partnerships and targeted outreach.',
+            ],
+          },
+        ],
+        technologies: ['Campus Marketing', 'Partnerships', 'Outreach'],
+      },
     ],
-    technologies: ['Campus Marketing', 'Partnerships', 'Outreach'],
   },
   {
-    id: 5,
-    role: 'Community Influencer',
+    id: 'unschool',
     company: 'Unschool',
-    duration: 'Jun 2021 – Jul 2021',
-    worktype: 'Internship',
     location: 'Remote',
-    description:
-      'Digital marketing internship — social campaigns and lead gen for online course growth.',
-    responsibilities: [
-      'Promoted online courses through social media and lead generation, enhancing customer engagement with tailored communication.',
+    duration: 'Jun 2021 – Jul 2021',
+    roles: [
+      {
+        id: 'us-influencer',
+        role: 'Community Influencer',
+        duration: 'Jun 2021 – Jul 2021',
+        worktype: 'Internship',
+        description: 'Digital marketing internship — social campaigns and lead gen for online course growth.',
+        projects: [
+          {
+            points: [
+              'Promoted online courses through social media and lead generation, enhancing customer engagement with tailored communication.',
+            ],
+          },
+        ],
+        technologies: ['Social Media Marketing', 'Lead Generation', 'Customer Engagement'],
+      },
     ],
-    technologies: ['Social Media Marketing', 'Lead Generation', 'Customer Engagement'],
   },
 ];
 
-const ExperienceCard = ({ exp, index, inView, isLast }) => {
+const RoleCard = ({ role }) => {
   const [expanded, setExpanded] = useState(false);
-  const hasMore = exp.responsibilities.length > PREVIEW_COUNT;
-  const visible = expanded ? exp.responsibilities : exp.responsibilities.slice(0, PREVIEW_COUNT);
+
+  const totalPoints = role.projects.reduce((sum, p) => sum + p.points.length, 0);
+  const hasMore = totalPoints > PREVIEW_COUNT;
+
+  let budget = expanded ? Infinity : PREVIEW_COUNT;
+  const visibleProjects = [];
+  role.projects.forEach((project) => {
+    if (budget <= 0) return;
+    visibleProjects.push({ ...project, points: project.points.slice(0, budget) });
+    budget -= project.points.length;
+  });
 
   return (
-    <MotionDiv
-      initial={{ opacity: 0, y: 24 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-      transition={{ duration: 0.5, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative grid gap-4 md:grid-cols-[6.5rem_1fr] md:gap-8 ${isLast ? '' : 'pb-10 md:pb-14'}`}
-    >
-      {/* Desktop company rail */}
-      <div className="relative hidden md:block self-stretch">
-        <div className="sticky top-24 pl-4">
-          <p className="text-sm font-semibold leading-snug text-sky-200/90">{exp.company}</p>
+    <article className="group relative min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] p-4 shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset] backdrop-blur-md transition duration-300 hover:border-cyan-500/25 hover:bg-white/[0.05] sm:p-6 md:p-7">
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/35 to-transparent"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-sky-500/10 blur-3xl transition group-hover:bg-cyan-400/12"
+        aria-hidden
+      />
+
+      <header className="relative">
+        <div className="flex items-start justify-between gap-2 sm:gap-4">
+          <h4 className="min-w-0 text-base font-semibold leading-snug tracking-tight text-white sm:text-lg md:text-xl">
+            {role.role}
+          </h4>
+          <span className="shrink-0 rounded-full border border-cyan-500/25 bg-cyan-500/10 px-2.5 py-0.5 text-[10px] font-medium text-cyan-300 sm:px-3 sm:py-1 sm:text-xs">
+            {role.duration}
+          </span>
         </div>
-        <div
-          className={`absolute left-[0.35rem] top-8 w-px bg-gradient-to-b from-cyan-500/45 via-sky-500/25 to-transparent ${
-            isLast ? 'bottom-4' : 'bottom-0'
-          }`}
-          aria-hidden
-        />
-        <div
-          className="absolute left-0 top-1.5 z-[1] h-2.5 w-2.5 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 shadow-[0_0_12px_rgba(34,211,238,0.45)] ring-4 ring-[#0d111c]"
-          aria-hidden
-        />
+
+        <div className="mt-2 flex flex-wrap items-center gap-1.5 sm:gap-2">
+          <span className="rounded-full border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-slate-300 sm:px-2.5 sm:py-1 sm:text-[11px]">
+            {role.worktype}
+          </span>
+        </div>
+
+        <p className="mt-2.5 text-sm leading-relaxed text-slate-400 max-md:text-pretty sm:mt-3 sm:text-base sm:leading-relaxed">
+          {role.description}
+        </p>
+      </header>
+
+      <div className="relative mt-5 space-y-5 border-t border-white/10 pt-5">
+        <AnimatePresence initial={false}>
+          {visibleProjects.map((project, pIdx) => (
+            <motion.div
+              key={`${role.id}-p${pIdx}`}
+              initial={pIdx > 0 && expanded ? { opacity: 0 } : false}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              className="space-y-2.5"
+            >
+              {project.client ? (
+                <p className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                  <span className="text-sm font-semibold tracking-tight text-sky-200 sm:text-[0.9375rem]">
+                    {project.client}
+                  </span>
+                  {project.name && (
+                    <>
+                      <span className="text-slate-600" aria-hidden>
+                        |
+                      </span>
+                      <span className="text-sm italic text-slate-400">{project.name}</span>
+                    </>
+                  )}
+                </p>
+              ) : (
+                <p className="font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-sky-400/85">
+                  Highlights
+                </p>
+              )}
+
+              <ul className="w-full space-y-2.5 md:pl-3">
+                <AnimatePresence initial={false}>
+                  {project.points.map((item, idx) => (
+                    <motion.li
+                      key={`${role.id}-p${pIdx}-${idx}`}
+                      initial={expanded ? { opacity: 0, height: 0 } : false}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.25 }}
+                      className="flex w-full gap-2.5 text-sm leading-relaxed text-slate-300 sm:gap-3 sm:text-[0.9375rem] sm:leading-relaxed"
+                    >
+                      <span
+                        className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500"
+                        aria-hidden
+                      />
+                      <span className="min-w-0 flex-1 text-pretty">{item}</span>
+                    </motion.li>
+                  ))}
+                </AnimatePresence>
+              </ul>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+
+        {hasMore && (
+          <button
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-xs font-semibold text-sky-300 transition hover:border-cyan-500/30 hover:bg-cyan-500/10 hover:text-cyan-200"
+          >
+            {expanded ? 'Show less' : 'Show more'}
+            <FaChevronDown
+              className={`text-[10px] transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}
+              aria-hidden
+            />
+          </button>
+        )}
       </div>
 
-      {/* Card */}
-      <article className="group relative min-w-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] p-4 shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset] backdrop-blur-md transition duration-300 hover:border-cyan-500/25 hover:bg-white/[0.05] sm:p-6 md:p-7">
-        <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/35 to-transparent"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-sky-500/10 blur-3xl transition group-hover:bg-cyan-400/12"
-          aria-hidden
-        />
-
-        <header className="relative">
-          <div className="flex items-start justify-between gap-2 sm:gap-4">
-            <h3 className="min-w-0 text-base font-semibold leading-snug tracking-tight text-white sm:text-xl md:text-[1.35rem]">
-              {exp.role}
-            </h3>
-            <span className="shrink-0 rounded-full border border-cyan-500/25 bg-cyan-500/10 px-2.5 py-0.5 text-[10px] font-medium text-cyan-300 sm:px-3 sm:py-1 sm:text-xs">
-              {exp.duration}
-            </span>
-          </div>
-
-          <div className="mt-2 flex items-center justify-between gap-2 sm:mt-3 sm:flex-wrap sm:justify-start sm:gap-2">
-            <p className="inline-flex min-w-0 shrink items-center gap-1.5 text-sm font-medium text-sky-200/90 md:hidden">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-cyan-500/15 text-cyan-300 ring-1 ring-cyan-400/20">
-                <FaBriefcase className="text-[10px]" aria-hidden />
-              </span>
-              <span className="truncate">{exp.company}</span>
-            </p>
-            <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-              <span className="rounded-full border border-white/10 bg-white/[0.04] px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-slate-300 sm:px-2.5 sm:py-1 sm:text-[11px]">
-                {exp.worktype}
-              </span>
-              <span className="inline-flex items-center gap-1 text-[11px] text-slate-400 sm:gap-1.5 sm:text-sm">
-                <FaMapMarkerAlt className="shrink-0 text-cyan-500/60" aria-hidden />
-                <span className="whitespace-nowrap">{exp.location}</span>
-              </span>
-            </div>
-          </div>
-
-          <p className="mt-2.5 text-sm leading-relaxed text-slate-400 max-md:text-left max-md:text-pretty sm:mt-3 sm:text-base sm:leading-relaxed md:text-left">
-            {exp.description}
-          </p>
-        </header>
-
-        <div className="relative mt-5 border-t border-white/10 pt-5">
-          <p className="mb-3 font-mono text-[10px] font-semibold uppercase tracking-[0.22em] text-sky-400/85">
-            Highlights
-          </p>
-
-          <ul className="w-full space-y-3">
-            <AnimatePresence initial={false}>
-              {visible.map((item, idx) => (
-                <motion.li
-                  key={`${exp.id}-${idx}`}
-                  initial={expanded && idx >= PREVIEW_COUNT ? { opacity: 0, height: 0 } : false}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.25 }}
-                  className="flex w-full gap-2.5 text-sm leading-relaxed text-slate-300 sm:gap-3 sm:text-[0.9375rem] sm:leading-relaxed"
-                >
-                  <span
-                    className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500"
-                    aria-hidden
-                  />
-                  <span className="min-w-0 flex-1 max-md:text-left max-md:text-pretty md:text-left">
-                    {item}
-                  </span>
-                </motion.li>
-              ))}
-            </AnimatePresence>
-          </ul>
-
-          {hasMore && (
-            <button
-              type="button"
-              onClick={() => setExpanded((v) => !v)}
-              className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-xs font-semibold text-sky-300 transition hover:border-cyan-500/30 hover:bg-cyan-500/10 hover:text-cyan-200"
-            >
-              {expanded ? 'Show less' : 'Show more'}
-              <FaChevronDown
-                className={`text-[10px] transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}
-                aria-hidden
-              />
-            </button>
-          )}
-        </div>
-
-        <div className="relative mt-5 flex flex-wrap items-center justify-start gap-1.5 border-t border-white/10 pt-4 sm:gap-2 md:justify-start">
-          {exp.technologies.map((tech) => (
-            <span
-              key={tech}
-              className="inline-flex items-center rounded-full border border-white/10 bg-black/25 px-2.5 py-1 text-[10px] font-medium leading-none text-slate-300 transition hover:border-cyan-500/30 hover:text-cyan-200 sm:text-[11px]"
-            >
-              {tech}
-            </span>
-          ))}
-        </div>
-      </article>
-    </MotionDiv>
+      <div className="relative mt-5 flex flex-wrap items-center gap-1.5 border-t border-white/10 pt-4 sm:gap-2">
+        {role.technologies.map((tech) => (
+          <span
+            key={tech}
+            className="inline-flex items-center rounded-full border border-white/10 bg-black/25 px-2.5 py-1 text-[10px] font-medium leading-none text-slate-300 transition hover:border-cyan-500/30 hover:text-cyan-200 sm:text-[11px]"
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+    </article>
   );
 };
+
+const CompanyGroup = ({ group, index, inView, isLast }) => (
+  <MotionDiv
+    initial={{ opacity: 0, y: 24 }}
+    animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+    transition={{ duration: 0.5, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
+    className={`relative ${isLast ? '' : 'pb-10 md:pb-14'}`}
+  >
+    {/* Timeline rail */}
+    <span
+      className={`absolute left-[0.3rem] top-6 hidden w-px bg-gradient-to-b from-cyan-500/45 via-sky-500/25 to-transparent md:block ${
+        isLast ? 'bottom-4' : 'bottom-0'
+      }`}
+      aria-hidden
+    />
+
+    {/* Company header */}
+    <header className="relative md:pl-10">
+      <span
+        className="absolute left-0 top-2 z-[1] hidden h-2.5 w-2.5 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 shadow-[0_0_12px_rgba(34,211,238,0.45)] ring-4 ring-[#0d111c] md:block"
+        aria-hidden
+      />
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5">
+        <div className="flex min-w-0 items-center gap-2">
+          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-cyan-500/15 text-cyan-300 ring-1 ring-cyan-400/20">
+            <FaBuilding className="text-[10px]" aria-hidden />
+          </span>
+          <h3 className="truncate text-lg font-bold tracking-tight text-white sm:text-xl">
+            {group.company}
+          </h3>
+          <span className="inline-flex shrink-0 items-center gap-1 text-[11px] text-slate-400 sm:gap-1.5 sm:text-sm">
+            <FaMapMarkerAlt className="shrink-0 text-cyan-500/60" aria-hidden />
+            <span className="whitespace-nowrap">{group.location}</span>
+          </span>
+        </div>
+        <span className="shrink-0 font-mono text-[10px] font-medium uppercase tracking-[0.14em] text-sky-300/80 sm:text-[11px]">
+          {group.duration}
+        </span>
+      </div>
+      <div
+        className="mt-3 h-px w-full bg-gradient-to-r from-cyan-500/30 via-white/10 to-transparent"
+        aria-hidden
+      />
+    </header>
+
+    {/* Roles under the company */}
+    <div className="mt-4 space-y-4 md:mt-5 md:space-y-5 md:pl-10">
+      {group.roles.map((role) => (
+        <RoleCard key={role.id} role={role} />
+      ))}
+    </div>
+  </MotionDiv>
+);
 
 const Experience = () => {
   const [ref, inView] = useInView({
@@ -285,13 +406,13 @@ const Experience = () => {
         </MotionDiv>
 
         <div className="space-y-0">
-          {experiences.map((exp, index) => (
-            <ExperienceCard
-              key={exp.id}
-              exp={exp}
+          {companies.map((group, index) => (
+            <CompanyGroup
+              key={group.id}
+              group={group}
               index={index}
               inView={inView}
-              isLast={index === experiences.length - 1}
+              isLast={index === companies.length - 1}
             />
           ))}
         </div>

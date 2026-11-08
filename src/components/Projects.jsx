@@ -34,12 +34,12 @@ const projects = [
   },
   {
     id: 4,
-    title: 'Smart ToDo Manager',
+    title: 'Sansa — Telegram Assistant Bot',
     description:
-      'Task manager with prioritization, due dates, and reminders to stay organized and productive.',
-    githubLink: 'https://github.com/saipraveen446/Smart-ToDo-Manage',
-    skills: ['JavaScript', 'HTML', 'CSS', 'LocalStorage'],
-    image: '/assets/project_ss/smart_todo_manager_ss.png',
+      'Telegram bot and React dashboard for expense tracking with category and period summaries, reminders with Telegram alerts, todo management with due dates, and daily AI/tech news digests',
+    githubLink: 'https://github.com/saipraveen446/sansa',
+    skills: ['FastAPI', 'Python', 'React', 'Telegram Bot API', 'Gemini', 'PostgreSQL', 'Docker'],
+    image: '/assets/project_ss/sansa_ss.png',
   },
   {
     id: 5,
